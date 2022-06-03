@@ -1,0 +1,45 @@
+Part 0 Exercises 
+
+0.4: New Note 
+- Link: https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC40OiBOZXcgbm90ZQoKYnJvd3Nlci0-c2VydmVyOiBIVFRQIEdFVCBodHRwczovL3N0dWRpZXMuY3MuaGVsc2lua2kuZmkvZXhhbXBsZWFwcC9ub3RlcwoAOwYtLT4ATAc6IEhUTUwtY29kZQAhRW1haW4uY3MAVRQAEgkAH0lqAE4ZanMKCm5vdGUgb3ZlciAAgWQIAIJACCBzdGFydHMgZXhlY3V0aW5nIGpzAIF9BnRoYXQgcmVxdWVzdHMgSlNPTiBkYXRhIGZyb20gAIJ3BiAKZW5kAIJNS2RhdGEuanNvbgCDCRNbeyBjb250ZW50OiAiSFRNTCBpcyBlYXN5IiwgZGF0ZTogIjIwMTktMDUtMjMiIH0sIC4uLl0AgV4dAIFuBmVzIHRoZSBldmVudCBoYW5kbGVyAIF1CG5kZXJzAIR0BXMgdG8gZGlzcGxheQCBawsAglQFbGVmdCBvZgCCUgp1c2VyIHdyaXRlcyBzb21ldGhpbmcgaW50bwBmBXRleHQgZmllbGQgYW5kIGNsaWNrcyBzdWJtaXQAgjEhUE9TAIU-LWV3XwCGNAUAhWcHAIVhDFRQIHN0YXR1cyBjb2RlIDMwMgCEDRxyZWxvYWRzIHBhZ2UAg24KAIRbgU4AhC6BFw&s=default
+
+title 0.4: New note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/notes
+server-->browser: HTML-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+
+note over browser:
+browser starts executing js-code
+that requests JSON data from server 
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note
+
+note left of browser:
+user writes something into the text field and clicks submit
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note
+server->browser: HTTP status code 302
+note over browser:
+browser reloads page
+end note
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.js
+server-->browser: main.js
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
+
+0.5: Single page app
+- Link: 
