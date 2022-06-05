@@ -42,4 +42,59 @@ browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
 server-->browser: [{ content: "HTML is easy", date: "2019-05-23" }, ...]
 
 0.5: Single page app
-- Link: 
+- Link: https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC41OiBTaW5nbGUgcGFnZSBhcHAKCmJyb3dzZXItPnNlcnZlcjogSFRUUCBHRVQgaHR0cHM6Ly9zdHVkaWVzLmNzLmhlbHNpbmtpLmZpL2V4YW1wbGVhcHAvc3BhCgA5Bi0tPgBKBzogSFRNTC1jb2RlAB9FbWFpbi5jc3MAVhMAEgkAgQVHLmoAUhQAEgcKbm90ZSBvdmVyIACBYggAgjwIIHN0YXJ0cyBleGVjdXRpbmcganMAgXsGdGhhdCByZXF1ZXN0cyBKU09OIGRhdGEgZnJvbSAAgnMGIAplbmQgbm90ZQCCTkZkYXRhLmpzb24AgwcTW3tjb250ZW50OiAiPyIsIGRhdGU6ICIyMDIyLTA2LTA1VDAyOjIwOjIzLjUzM1oifSzigKZdAIFeHQCBbgZlcyB0aGUgZXZlbnQgaGFuZGxlcgCBdQhuZGVycwCBXAVzIHRvIGRpc3BsYXkAgW0J&s=default
+
+title 0.5: Single page app
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+
+note over browser:
+browser starts executing js-code
+that requests JSON data from server 
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{content: "?", date: "2022-06-05T02:20:23.533Z"},…]
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note
+
+0.6: New note
+- Link: https://www.websequencediagrams.com/cgi-bin/cdraw?lz=dGl0bGUgMC42OiBOZXcgbm90ZQoKYnJvd3Nlci0-c2VydmVyOiBIVFRQIEdFVCBodHRwczovL3N0dWRpZXMuY3MuaGVsc2lua2kuZmkvZXhhbXBsZWFwcC9zcGEKADkGLS0-AEoHOiBIVE1MLWNvZGUAH0VtYWluLmNzcwBWEwASCQCBBUcuagBSFAASBwpub3RlIG92ZXIgAIFiCACCPAggc3RhcnRzIGV4ZWN1dGluZyBqcwCBewZ0aGF0IHJlcXVlc3RzIEpTT04gZGF0YSBmcm9tIACCcwYgCmVuZACCSUtkYXRhLmpzb24AgwcTW3tjb250ZW50OiAiPyIsIGRhdGU6ICIyMDIyLTA2LTA1VDAyOjIwOjIzLjUzM1oifSzigKZdAIFeHQCBbgZlcyB0aGUgZXZlbnQgaGFuZGxlcgCBdQhuZGVycwCEcAVzIHRvIGRpc3BsYXkAgVUhUE9TAIRfLG5ld19ub3RlX3NwYQCFUwkAhVMKAIFuC3Rlc3QAgWcVMTU6MTU6NTkuOTA1WiJ9AIVFFVRQIDIwMQCDbx4AhEQFAIFwCXRoZQCGbQUgCnRocm91Z2gAghgSIGZvcm0ub25zdWJtaXQ&s=default
+
+title 0.6: New note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+server-->browser: HTML-code
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+server-->browser: main.css
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+server-->browser: spa.js
+
+note over browser:
+browser starts executing js-code
+that requests JSON data from server 
+end note
+
+browser->server: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+server-->browser: [{content: "?", date: "2022-06-05T02:20:23.533Z"},…]
+
+note over browser:
+browser executes the event handler
+that renders notes to display
+end note
+
+browser->server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+browser-->server: {content: "test", date: "2022-06-05T15:15:59.905Z"}
+server-->browser: HTTP 201
+
+note over browser:
+browser spa.js renders the note 
+through the event handler form.onsubmit
