@@ -48,6 +48,9 @@ const App = () => {
       <div>
         {anecdotes[mostVotesIndex]}
       </div>
+      <div>
+        has {scores[mostVotesIndex]} votes
+      </div>
     </div>
   )
 }
