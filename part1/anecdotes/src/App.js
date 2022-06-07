@@ -3,7 +3,6 @@ import { useState } from 'react'
 const genRandomNumber = (ceiling) => Math.floor(Math.random() * ceiling)
 
 const updateScore = (scores, index) => {
-  console.log(scores)
   const copy = [...scores]
   copy[index] += 1
   return copy
@@ -14,6 +13,8 @@ const Button = ({ handleClick, text }) => (
     {text}
   </button>
 )
+
+const Header = ({text}) => <h1> {text} </h1>
 
 const App = () => {
   const anecdotes = [
@@ -29,9 +30,12 @@ const App = () => {
 
   const [selected, setSelected] = useState(0)
   const [scores, setScore] = useState(Array(anecdotes.length).fill(0))
+  let mostVotes = Math.max(...scores)
+  let mostVotesIndex = scores.indexOf(mostVotes)
 
   return (
     <div>
+      <Header text="Anecdote of the day"/>
       <div>
         {anecdotes[selected]}
       </div>
@@ -40,6 +44,10 @@ const App = () => {
       </div>
       <Button handleClick={() => setScore(updateScore(scores, selected))} text="vote"/>
       <Button handleClick={() => setSelected(genRandomNumber(anecdotes.length))} text="next anecdote"/>
+      <Header text="Anecdote with most votes"/>
+      <div>
+        {anecdotes[mostVotesIndex]}
+      </div>
     </div>
   )
 }
