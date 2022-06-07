@@ -2,6 +2,13 @@ import { useState } from 'react'
 
 const genRandomNumber = (ceiling) => Math.floor(Math.random() * ceiling)
 
+const updateScore = (scores, index) => {
+  console.log(scores)
+  const copy = [...scores]
+  copy[index] += 1
+  return copy
+}
+
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>
     {text}
@@ -19,13 +26,19 @@ const App = () => {
     'Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients'
   ]
 
+
   const [selected, setSelected] = useState(0)
+  const [scores, setScore] = useState(Array(anecdotes.length).fill(0))
 
   return (
     <div>
       <div>
         {anecdotes[selected]}
       </div>
+      <div>
+        has {scores[selected]} votes
+      </div>
+      <Button handleClick={() => setScore(updateScore(scores, selected))} text="vote"/>
       <Button handleClick={() => setSelected(genRandomNumber(anecdotes.length))} text="next anecdote"/>
     </div>
   )
