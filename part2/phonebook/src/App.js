@@ -2,23 +2,23 @@ import { useState } from 'react'
 import { v4 as uuid } from 'uuid';
 
 
-const PersonsDisplay = ( {persons} ) => {
-  return (
-    <div>
-      {persons.map(person => <div key={person.id}>{person.name}</div>)}
-    </div>
-  )
-}
+const PersonsDisplay = ( {name} ) => <div>{name}</div>
 
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
+    { name: 'Arto Hellas', id: uuid() }
   ]) 
   const [newName, setNewName] = useState('')
 
   const addName = (event) => { 
     event.preventDefault()
+    let names = persons.map(person => person.name)
+    if (names.includes(newName)) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
     const nameObject = {
       name: newName,
       id: uuid(),
@@ -47,7 +47,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <PersonsDisplay persons={persons} />
+      {persons.map(person => <PersonsDisplay key={person.id} name={person.name} />)}
     </div>
   )
 }
