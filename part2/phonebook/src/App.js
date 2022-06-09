@@ -4,13 +4,24 @@ import { v4 as uuid } from 'uuid';
 
 const PersonsDisplay = ( {name, number} ) => <div>{name} {number}</div>
 
+const Filter = ({prefix, handlePrefixChange}) => {
+  return (
+    <div>
+      filter shown with <input value={prefix} onChange={handlePrefixChange} />
+    </div>
+  )
+}
 
 const App = () => {
   const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', id: uuid(), number: "123-567-7890" }
+    { name: 'Arto Hellas', number: '040-123456', id: uuid() },
+    { name: 'Ada Lovelace', number: '39-44-5323523', id: uuid() },
+    { name: 'Dan Abramov', number: '12-43-234345', id: uuid() },
+    { name: 'Mary Poppendieck', number: '39-23-6423122', id: uuid() }
   ]) 
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
+  const [prefix, setNewPrefix] = useState('')
 
   const addName = (event) => { 
     event.preventDefault()
@@ -30,6 +41,7 @@ const App = () => {
     setPersons(persons.concat(nameObject))
     setNewName('')
     setNewNumber('')
+    setNewPrefix('')
   }
 
   const handleNameChange = (event) => {
@@ -41,12 +53,20 @@ const App = () => {
     console.log(event.target.value)
     setNewNumber(event.target.value)
   }
+
+  const handlePrefixChange = (event) => {
+    console.log(event.target.value)
+    setNewPrefix(event.target.value)
+  }
   
-  
-// todo: fix how persons are displayed/ rendered
+  // Filter the persons array based on the prefix typed
+  const personsToShow = persons.filter(person => person.name.toLowerCase().includes(prefix.toLowerCase()))
+
   return (
     <div>
       <h2>Phonebook</h2>
+      <Filter prefix={prefix} handlePrefixChange={handlePrefixChange} />
+      <h2> Add a new contact </h2>
       <form onSubmit={addName}>
         <div>
           name: <input value={newName} onChange={handleNameChange} />
@@ -59,7 +79,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      {persons.map(person => <PersonsDisplay key={person.id} name={person.name} number={person.number}/>)}
+      {personsToShow.map(person => <PersonsDisplay key={person.id} name={person.name} number={person.number}/>)}
     </div>
   )
 }
