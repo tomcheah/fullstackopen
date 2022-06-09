@@ -1,16 +1,7 @@
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid';
+import {Form, Filter, Persons} from './Components'
 
-
-const PersonsDisplay = ( {name, number} ) => <div>{name} {number}</div>
-
-const Filter = ({prefix, handlePrefixChange}) => {
-  return (
-    <div>
-      filter shown with <input value={prefix} onChange={handlePrefixChange} />
-    </div>
-  )
-}
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -64,22 +55,12 @@ const App = () => {
 
   return (
     <div>
-      <h2>Phonebook</h2>
+      <h1>Phonebook</h1>
       <Filter prefix={prefix} handlePrefixChange={handlePrefixChange} />
-      <h2> Add a new contact </h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNumberChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <h2>Add a new contact </h2> 
+      <Form newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addName={addName} />
       <h2>Numbers</h2>
-      {personsToShow.map(person => <PersonsDisplay key={person.id} name={person.name} number={person.number}/>)}
+      <Persons persons={personsToShow} />
     </div>
   )
 }
