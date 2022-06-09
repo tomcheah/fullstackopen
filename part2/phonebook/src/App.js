@@ -1,6 +1,16 @@
 import { useState } from 'react'
 import { v4 as uuid } from 'uuid';
 
+
+const PersonsDisplay = ( {persons} ) => {
+  return (
+    <div>
+      {persons.map(person => <div key={person.id}>{person.name}</div>)}
+    </div>
+  )
+}
+
+
 const App = () => {
   const [persons, setPersons] = useState([
     { name: 'Arto Hellas' }
@@ -37,8 +47,7 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-
-      {persons.map(person => <ul key={person.id}>{person.name}</ul>)}
+      <PersonsDisplay persons={persons} />
     </div>
   )
 }
