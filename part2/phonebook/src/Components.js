@@ -7,11 +7,11 @@ const Persons = ( {persons} ) => {
 const PersonsDisplay = ( {name, number} ) => <div>{name} {number}</div>
   
 const Filter = ({prefix, handlePrefixChange}) => {
-return (
-    <div>
-    filter shown with <input value={prefix} onChange={handlePrefixChange} />
-    </div>
-)
+    return (
+        <div>
+        filter shown with <input value={prefix} onChange={handlePrefixChange} />
+        </div>
+    )
 }
 
 const Form = ({newName, newNumber, handleNameChange, handleNumberChange, addName}) => {
