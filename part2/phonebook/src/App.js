@@ -10,9 +10,10 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [prefix, setNewPrefix] = useState('')
 
+  const baseurl = 'http://localhost:3001/persons'
   const hook = () => {
     axios
-      .get('http://localhost:3001/persons')
+      .get(baseurl)
       .then(response => {
         setPersons(response.data)
       })
@@ -36,10 +37,14 @@ const App = () => {
     }
     console.log(nameObject)
 
-    setPersons(persons.concat(nameObject))
-    setNewName('')
-    setNewNumber('')
-    setNewPrefix('')
+    axios 
+      .post(baseurl, nameObject)
+      .then(response => {
+        setPersons(persons.concat(nameObject))
+        setNewName('')
+        setNewNumber('')
+        setNewPrefix('')
+      })
   }
 
   const handleNameChange = (event) => {
