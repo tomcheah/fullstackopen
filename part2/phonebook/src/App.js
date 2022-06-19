@@ -19,21 +19,26 @@ const App = () => {
   
   useEffect(hook, [])
 
-
   const addName = (event) => { 
     event.preventDefault()
     let names = persons.map(person => person.name)
-    if (names.includes(newName)) {
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
-
     const nameObject = {
       name: newName,
       id: uuid(),
       number: newNumber,
     }
     console.log(nameObject)
+    if (names.includes(newName) && window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+      const id = persons.find(person => person.name === newName).id
+      service.updateNumber(id, nameObject)
+      .then(returnedObject => {
+        setPersons(persons.map(person => person.id === id ? returnedObject : person))
+        setNewName('')
+        setNewNumber('')
+        setNewPrefix('')
+      })
+      return
+    }
 
     service
       .create(nameObject)
