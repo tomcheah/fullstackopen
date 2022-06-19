@@ -1,10 +1,10 @@
-const Persons = ( {persons} ) => {
+const Person = ( {name, number, id, handleDelete} ) =>{
     return (
-      persons.map(person => <PersonsDisplay key={person.id} name={person.name} number={person.number}/>)
+        <div> 
+            {name} {number} <button onClick={() => handleDelete(name, id)}> Delete </button>
+        </div>
     )
-  }
-  
-const PersonsDisplay = ( {name, number} ) => <div>{name} {number}</div>
+}
   
 const Filter = ({prefix, handlePrefixChange}) => {
     return (
@@ -33,8 +33,7 @@ return (
 }
 
 export {
-    Persons,
-    PersonsDisplay,
+    Person,
     Form,
     Filter,
 }

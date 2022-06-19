@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { v4 as uuid } from 'uuid';
-import {Form, Filter, Persons} from './Components'
+import {Form, Filter, Person} from './Components'
 import service from './server.js'
 
 const App = () => {
@@ -59,6 +59,13 @@ const App = () => {
     console.log(event.target.value)
     setNewPrefix(event.target.value)
   }
+
+  const handleDelete = (name, id) => {
+    if (window.confirm(`Delete ${name}?`)) {
+        service.deletePerson(id)
+        setPersons(persons.filter(person => person.id !== id))
+    } 
+}
   
   // Filter the persons array based on the prefix typed
   const personsToShow = persons.filter(person => person.name.toLowerCase().includes(prefix.toLowerCase()))
@@ -70,7 +77,16 @@ const App = () => {
       <h2>Add a new contact </h2> 
       <Form newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addName={addName} />
       <h2>Numbers</h2>
-      <Persons persons={personsToShow} />
+      <div>
+        {personsToShow.map(person => 
+          <Person 
+            key={person.id}
+            name={person.name}
+            number={person.number}
+            handleDelete={() => handleDelete(person.name, person.id)}
+          />
+        )}  
+      </div> 
     </div>
   )
 }
