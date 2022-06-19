@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import { v4 as uuid } from 'uuid';
 import {Form, Filter, Persons} from './Components'
-
+import service from './server.js'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -10,12 +9,11 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
   const [prefix, setNewPrefix] = useState('')
 
-  const baseurl = 'http://localhost:3001/persons'
   const hook = () => {
-    axios
-      .get(baseurl)
-      .then(response => {
-        setPersons(response.data)
+    service
+      .getAll()
+      .then(initialNames => {
+        setPersons(initialNames)
       })
   }
   
@@ -37,10 +35,10 @@ const App = () => {
     }
     console.log(nameObject)
 
-    axios 
-      .post(baseurl, nameObject)
-      .then(response => {
-        setPersons(persons.concat(nameObject))
+    service
+      .create(nameObject)
+      .then(returnedObject => {
+        setPersons(persons.concat(returnedObject))
         setNewName('')
         setNewNumber('')
         setNewPrefix('')
