@@ -36,6 +36,18 @@ const App = () => {
       .then(returnedObject => {
         setPersons(persons.map(person => person.id === id ? returnedObject : person))
       })
+      .catch(error => {
+        setNotificationMessage(
+          `Information of '${newName}' has already been removed from the phonebook`
+        )
+        setNotificationClass('error')
+        setTimeout(() => {
+          setNotificationMessage(null)
+          setNotificationClass('')
+        }, 4000)
+        setPersons(persons.filter(person => person.id !== id))
+        return
+      })
     } else {
       service
       .create(nameObject)
@@ -54,6 +66,7 @@ const App = () => {
       setNotificationMessage(null)
       setNotificationClass('')
     }, 4000)
+
     // Reset event handlers to empty strings
     setNewName('')
     setNewNumber('')
