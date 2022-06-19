@@ -5,6 +5,18 @@ const Person = ( {name, number, id, handleDelete} ) =>{
         </div>
     )
 }
+
+const Notification = ({ message, className }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className={className}>
+        {message}
+      </div>
+    )
+  }
   
 const Filter = ({prefix, handlePrefixChange}) => {
     return (
@@ -36,4 +48,5 @@ export {
     Person,
     Form,
     Filter,
+    Notification,
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { v4 as uuid } from 'uuid';
-import {Form, Filter, Person} from './Components'
+import {Form, Filter, Person, Notification} from './Components'
 import service from './server.js'
 
 const App = () => {
@@ -8,6 +8,8 @@ const App = () => {
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] = useState('')
   const [prefix, setNewPrefix] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationClass, setNotificationClass] = useState('notification')
 
   const hook = () => {
     service
@@ -33,21 +35,29 @@ const App = () => {
       service.updateNumber(id, nameObject)
       .then(returnedObject => {
         setPersons(persons.map(person => person.id === id ? returnedObject : person))
-        setNewName('')
-        setNewNumber('')
-        setNewPrefix('')
       })
-      return
-    }
-
-    service
+    } else {
+      service
       .create(nameObject)
       .then(returnedObject => {
         setPersons(persons.concat(returnedObject))
-        setNewName('')
-        setNewNumber('')
-        setNewPrefix('')
       })
+    }
+
+    // Display notification for a few seconds
+    // Added {name} to phonebook 
+    setNotificationMessage(
+      `Added '${newName}' to phonebook`
+    )
+    setNotificationClass('notification')
+    setTimeout(() => {
+      setNotificationMessage(null)
+      setNotificationClass('')
+    }, 4000)
+    // Reset event handlers to empty strings
+    setNewName('')
+    setNewNumber('')
+    setNewPrefix('')
   }
 
   const handleNameChange = (event) => {
@@ -78,6 +88,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification message={notificationMessage} className={notificationClass}/>
       <Filter prefix={prefix} handlePrefixChange={handlePrefixChange} />
       <h2>Add a new contact </h2> 
       <Form newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange} addName={addName} />
