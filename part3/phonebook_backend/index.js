@@ -1,6 +1,8 @@
 const express = require('express')
 const app = express()
 
+app.use(express.json())
+
 let persons = [
     { 
       "id": 1,
@@ -37,6 +39,12 @@ app.get('/api/persons/:id', (request, response) => {
   } else {
     response.status(404).end()
   }
+})
+
+app.get('/info', (request, response) => {
+    response.write(`<h1>Phonebook has info for ${persons.length} people</h1>`)
+    response.write(`<p>${new Date()}</p>`)
+    response.send()
 })
 
 const PORT = 3001
