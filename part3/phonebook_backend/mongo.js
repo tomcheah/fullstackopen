@@ -1,0 +1,54 @@
+const mongoose = require('mongoose')
+
+if (process.argv.length < 3) {
+  console.log('Please provide the password as an argument: node mongo.js <password>')
+  process.exit(1)
+}
+
+const password = process.argv[2]
+
+const url = `mongodb+srv://fullstack:${password}@fullstackopen.11exm.mongodb.net/phonebook?retryWrites=true&w=majority`
+
+const personSchema = new mongoose.Schema({
+  name: String,
+  phone_number: String,
+})
+
+const Person = mongoose.model('Person', personSchema)
+
+const name = process.argv[3]
+const phone_number = process.argv[4]
+
+if (name === undefined || phone_number === undefined) {
+    console.log("phonebook:")
+    mongoose
+    .connect(url)
+    .then((result) => {
+      console.log('connected')
+      Person.find({}).then(result => {
+        result.forEach(person => {
+          console.log(`${person.name} ${person.phone_number}`)
+        })
+        mongoose.connection.close()
+      })
+    })
+    .catch((err) => console.log(err))
+} else {
+    mongoose
+    .connect(url)
+    .then((result) => {
+      console.log('connected')
+  
+      const person = new Person({
+        name: name,
+        phone_number: phone_number,
+      })
+  
+      return person.save()
+    })
+    .then(() => {
+      console.log('contact saved!')
+      return mongoose.connection.close()
+    })
+    .catch((err) => console.log(err))
+}
