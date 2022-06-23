@@ -11,15 +11,15 @@ const url = `mongodb+srv://fullstack:${password}@fullstackopen.11exm.mongodb.net
 
 const personSchema = new mongoose.Schema({
   name: String,
-  phone_number: String,
+  number: String,
 })
 
 const Person = mongoose.model('Person', personSchema)
 
 const name = process.argv[3]
-const phone_number = process.argv[4]
+const number = process.argv[4]
 
-if (name === undefined || phone_number === undefined) {
+if (name === undefined || number === undefined) {
     console.log("phonebook:")
     mongoose
     .connect(url)
@@ -27,7 +27,7 @@ if (name === undefined || phone_number === undefined) {
       console.log('connected')
       Person.find({}).then(result => {
         result.forEach(person => {
-          console.log(`${person.name} ${person.phone_number}`)
+          console.log(`${person.name} ${person.number}`)
         })
         mongoose.connection.close()
       })
