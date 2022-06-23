@@ -41,11 +41,13 @@ app.get('/api/persons/:id', (request, response) => {
   })
 })
 
-// app.get('/info', (request, response) => {
-//     response.write(`<h1>Phonebook has info for ${persons.length} people</h1>`)
-//     response.write(`<p>${new Date()}</p>`)
-//     response.send()
-// })
+app.get('/info', (request, response) => {
+    Person.countDocuments({}, function (err, count) {
+      response.write(`<h1>Phonebook has info for ${count} people</h1>`)
+      response.write(`<p>${new Date()}</p>`)
+      response.send()
+    });
+})
 
 app.delete('/api/persons/:id', (request, response) => {
   Person.findByIdAndRemove(request.params.id)
