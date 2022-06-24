@@ -20,11 +20,12 @@ const name = process.argv[3]
 const number = process.argv[4]
 
 if (name === undefined || number === undefined) {
-    console.log("phonebook:")
-    mongoose
+  console.log('phonebook:')
+  mongoose
     .connect(url)
     .then((result) => {
       console.log('connected')
+      console.log(result)
       Person.find({}).then(result => {
         result.forEach(person => {
           console.log(`${person.name} ${person.number}`)
@@ -34,16 +35,17 @@ if (name === undefined || number === undefined) {
     })
     .catch((err) => console.log(err))
 } else {
-    mongoose
+  mongoose
     .connect(url)
     .then((result) => {
+      console.log(result)
       console.log('connected')
-  
+
       const person = new Person({
         name: name,
-        phone_number: phone_number,
+        number: number,
       })
-  
+
       return person.save()
     })
     .then(() => {

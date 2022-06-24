@@ -4,7 +4,7 @@ PUT http://localhost:3001/api/persons/62b40bf50c4e43f42610153e HTTP/1.1
 content-type: application/json
 
 {
-    "name": "An",
+    "name": "Tacocat",
     "number": "152"
 }
 ###
@@ -13,5 +13,5 @@ content-type: application/json
 
 {
     "name": "Bedbean",
-    "number": "1522"
+    "number": "029-2342342342342"
 }
