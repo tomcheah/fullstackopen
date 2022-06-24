@@ -12,18 +12,6 @@ app.use(morgan(':method :url :status :response-time ms :body'));
 app.use(cors())
 app.use(express.static('build'))
 
-const errorHandler = (error, request, response, next) => {
-  console.error(error.message)
-
-  if (error.name === "CastError") {
-    return response.status(400).send({error: 'malformatted id'})
-  }
-
-  next(error) 
-}
-
-// errorHandler MUST be last loaded middleware
-app.use(errorHandler)
 
 app.get('/', (request, response) => {
   response.send('<h1>Hello World!</h1>')
@@ -49,7 +37,7 @@ app.get('/info', (request, response) => {
     });
 })
 
-app.delete('/api/persons/:id', (request, response) => {
+app.delete('/api/persons/:id', (request, response, next) => {
   Person.findByIdAndRemove(request.params.id)
     .then(result => {
       response.status(204).end()
@@ -57,15 +45,10 @@ app.delete('/api/persons/:id', (request, response) => {
     .catch(error => next(error))
 })
 
-app.put('/api/persons/:id', (request, response) => {
-  const body = request.body
+app.put('/api/persons/:id', (request, response, next) => {
+  const { name, number } = request.body
 
-  const person = {
-    name: body.name,
-    number: body.number,
-  }
-
-  Person.findByIdAndUpdate(request.params.id, person, {new: true})
+  Person.findByIdAndUpdate(request.params.id, { name, number }, {new: true, runValidators: true, context: 'query'})
     .then(updatedPerson => {
       console.log(updatedPerson)
       response.json(updatedPerson)
@@ -73,7 +56,7 @@ app.put('/api/persons/:id', (request, response) => {
     .catch(error => next(error))
 })
 
-app.post('/api/persons', (request, response) => {
+app.post('/api/persons', (request, response, next) => {
     const body = request.body
     
     if (!body.name || !body.number) {
@@ -85,10 +68,25 @@ app.post('/api/persons', (request, response) => {
         number: body.number,
     })
 
-    person.save().then(savedPerson => {
+    person.save()
+    .then(savedPerson => {
       response.json(savedPerson)
     })
+    .catch(error => { next(error) })
 })
+
+const errorHandler = (error, request, response, next) => {
+  if (error.name === "CastError") {
+    return response.status(400).send({error: 'malformatted id'})
+  } else if (error.name === 'ValidationError') {
+    return response.status(400).json({ error: error.message })
+  }
+
+  next(error) 
+}
+
+// errorHandler MUST be last loaded middleware and has to below all the APIs
+app.use(errorHandler)
 
 const PORT = process.env.PORT
 app.listen(PORT, () => {
