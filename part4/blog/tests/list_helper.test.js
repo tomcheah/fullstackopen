@@ -62,3 +62,58 @@ describe('total likes', () => {
       })
 
   })
+
+describe('total likes', () => {
+    const listWithOneBlog = [
+        {
+          _id: '5a422aa71b54a676234d17f8',
+          title: 'Bedbean Explores Rito',
+          author: 'Bedbean',
+          url: 'test.url',
+          likes: 49824,
+          __v: 0
+        }
+      ]
+    
+      const listWithMultipleBlogs = [
+          {
+            _id: '5a422aa71b54a676234d17f8',
+            title: 'Bedbean Explores Rito',
+            author: 'Bedbean',
+            url: 'test.url',
+            likes: 2,
+            __v: 0
+          },
+          {
+              _id: '2498723489789274',
+              title: 'Jett Takes on Pearl',
+              author: 'Jett',
+              url: 'test.url',
+              likes: 300,
+              __v: 0
+            },
+            {
+              _id: '1029834982734',
+              title: 'Eating Food',
+              author: 'Bread',
+              url: 'test.url',
+              likes: 1,
+              __v: 0
+            }
+        ]
+
+    test('empty list', () => {
+        const result = listHelper.favoriteBlog([])
+        expect(result).toBe("Blogs do not exist")
+    })
+
+    test('list with one blog', () => {
+        const result = listHelper.favoriteBlog(listWithOneBlog)
+        expect(result).toEqual(listWithOneBlog[0])
+    })
+
+    test('list with multiple blogs', () => {
+        const result = listHelper.favoriteBlog(listWithMultipleBlogs)
+        expect(result).toEqual(listWithMultipleBlogs[1])
+    })
+})
