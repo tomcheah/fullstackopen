@@ -6,7 +6,6 @@ content-type: application/json
 {
     "title": "Bedbean Eats Cafe",
     "author": "Bedbean",
-    "url": "test",
-    "likes": 223
+    "url": "test"
 }
 ###
