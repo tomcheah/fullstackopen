@@ -74,6 +74,20 @@ test('a new blog missing likes property should default to 0 likes', async () => 
     expect(blogsAtEnd[helper.initialBlogs.length].likes).toEqual(0)
 })
 
+test('a blog missing title and url should not be created', async () => {
+    const newBlog = {
+        author: "jest",
+        url: "jest",
+    }
+
+    await api
+        .post('/api/blogs')
+        .send(newBlog)
+        .expect(400)
+})
+
+
+
 afterAll(() => {
   mongoose.connection.close()
 })
