@@ -1,4 +1,5 @@
 require('dotenv').config()
+require('express-async-errors')
 
 const http = require('http')
 const express = require('express')
@@ -7,7 +8,10 @@ const blogsRouter = require('./controllers/blog')
 const config = require('./utils/config')
 const mongoose = require('mongoose')
 
-const mongoUrl = config.MONGODB_URI
+const mongoUrl = process.env.NODE_ENV === 'test' 
+  ? process.env.TEST_MONGODB_URI
+  : process.env.MONGODB_URI
+
 mongoose
     .connect(mongoUrl)
     .then(result => {
