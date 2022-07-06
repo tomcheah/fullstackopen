@@ -106,6 +106,33 @@ test('succeeds with status code 204 if id is valid', async () => {
     expect(titles).not.toContain(blogToDelete.title)
 })
 
+test('update put request works', async () => {
+    const blogsAtStart = await helper.blogsInDb()
+    const blogToUpdate = blogsAtStart[0]
+
+    const newBlog = {
+        author: "jest",
+        title: "jest test",
+        url: "jest",
+        likes: 2034,
+    }
+
+    await api
+        .put(`/api/blogs/${blogToUpdate.id}`)
+        .send(newBlog)
+        .expect(200)
+
+    const blogsAtEnd = await helper.blogsInDb()
+
+    expect(blogsAtEnd).toHaveLength(
+        helper.initialBlogs.length
+    )
+
+    const titles = blogsAtEnd.map(r => r.title)
+    
+    expect(titles).toContain(newBlog.title)
+
+})
 
 
 afterAll(() => {
