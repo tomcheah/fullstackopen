@@ -9,3 +9,5 @@ content-type: application/json
     "url": "test"
 }
 ###
+
+DELETE http://localhost:3003/api/blogs/62c51bb831a36b03bcdc15b0 HTTP/1.1
