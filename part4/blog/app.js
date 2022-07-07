@@ -5,8 +5,10 @@ const http = require('http')
 const express = require('express')
 const app = express()
 const blogsRouter = require('./controllers/blog')
+const usersRouter = require('./controllers/users')
 const config = require('./utils/config')
 const mongoose = require('mongoose')
+const { application } = require('express')
 
 app.use(express.json())
 
@@ -24,5 +26,6 @@ mongoose
     })
 
 app.use('/api/blogs', blogsRouter)
+app.use('/api/users', usersRouter)
 
 module.exports = app
