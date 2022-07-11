@@ -11,7 +11,6 @@ const config = require('./utils/config')
 const mongoose = require('mongoose')
 const { application } = require('express')
 const middleware = require('./utils/middleware')
-
 app.use(middleware.tokenExtractor)
 app.use(express.json())
 
@@ -28,7 +27,7 @@ mongoose
         console.log('Error connecting to MongoDB:', error.message)
     })
 
-app.use('/api/blogs', middleware.userExtractor, blogsRouter)
+app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/login', loginRouter)
 
