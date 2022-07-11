@@ -2,6 +2,7 @@ GET http://localhost:3003/api/blogs/ HTTP/1.1
 ###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QiLCJpZCI6IjYyY2I5YzM4ZDYyNzViZDRjNzdiNTcxMyIsImlhdCI6MTY1NzUxMjA5OH0.8kOGFb_J1jv76FkNXlOu8UfeeHpYqtYepH39ZXJu3BQ
 
 {
     "title": "Test Populate",
@@ -21,5 +22,14 @@ content-type: application/json
 {
     "username": "Test",
     "name": "Test",
+    "password": "test"
+}
+
+###
+POST http://localhost:3003/api/login/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Test",
     "password": "test"
 }
