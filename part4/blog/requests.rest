@@ -4,9 +4,10 @@ POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
 
 {
-    "title": "Bedbean Eats Cafe",
-    "author": "Bedbean",
-    "url": "test"
+    "title": "Test Populate",
+    "author": "Test",
+    "url": "test.com",
+    "userId": "62cb9c38d6275bd4c77b5713"
 }
 ###
 
@@ -18,7 +19,7 @@ POST http://localhost:3003/api/users/ HTTP/1.1
 content-type: application/json
 
 {
-    "username": "bedbean",
-    "name": "bed bean",
-    "password": "kirby"
+    "username": "Test",
+    "name": "Test",
+    "password": "test"
 }
