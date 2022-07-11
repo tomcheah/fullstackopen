@@ -10,7 +10,9 @@ const loginRouter = require('./controllers/login')
 const config = require('./utils/config')
 const mongoose = require('mongoose')
 const { application } = require('express')
+const middleware = require('./utils/middleware')
 
+app.use(middleware.tokenExtractor)
 app.use(express.json())
 
 const mongoUrl = process.env.NODE_ENV === 'test' 
