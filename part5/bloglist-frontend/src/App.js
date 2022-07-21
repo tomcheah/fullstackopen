@@ -10,6 +10,14 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
 
+  const handleLogout = (event) => {
+    event.preventDefault()
+    window.localStorage.removeItem('loggedBlogsappUser')
+    setUser(null)
+    setUsername('')
+    setPassword('')
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
     
@@ -77,6 +85,9 @@ const App = () => {
   const blogsList = () => (
       <div>
       <h2>blogs</h2>
+      <div>{user.username} logged in
+        <button onClick={handleLogout}>logout</button>
+      </div>
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
       )}
