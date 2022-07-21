@@ -12,6 +12,20 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notificationMessage, setNotificationMessage] = useState(null)
+  const [notificationClass, setNotificationClass] = useState('')
+
+  const Notification = ({ message, className }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className={className}>
+        {message}
+      </div>
+    )
+  }
 
   const handleLogout = (event) => {
     event.preventDefault()
@@ -24,11 +38,17 @@ const App = () => {
   const handleNewBlog = async (event) => {
     event.preventDefault()
     try {
-      console.log(title)
-      await blogService.create({title, author, url})
+      let response = await blogService.create({title, author, url})
+      console.log(response.author)
       blogService.getAll().then(blogs =>
         setBlogs( blogs )
       )
+      setNotificationMessage("test")
+      setNotificationClass('success')
+      setTimeout(() => {
+        setNotificationMessage(null)
+        setNotificationClass('')
+      }, 4000)       
       setTitle('')
       setAuthor('')
       setUrl('')
@@ -140,6 +160,7 @@ const App = () => {
   const blogsList = () => (
     <div>
       <h2>blogs</h2>
+      <Notification message={notificationMessage} className={notificationClass}/>
       <div>{user.username} logged in
         <button onClick={handleLogout}>logout</button>
       </div>
