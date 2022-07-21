@@ -27,6 +27,15 @@ const App = () => {
     )
   }
 
+  const setNotification = (message, className) => {
+    setNotificationMessage(message)
+    setNotificationClass(className)
+    setTimeout(() => {
+      setNotificationMessage(null)
+      setNotificationClass('')
+    }, 4000)       
+  }
+
   const handleLogout = (event) => {
     event.preventDefault()
     window.localStorage.removeItem('loggedBlogsappUser')
@@ -43,18 +52,13 @@ const App = () => {
       blogService.getAll().then(blogs =>
         setBlogs( blogs )
       )
-      setNotificationMessage("test")
-      setNotificationClass('success')
-      setTimeout(() => {
-        setNotificationMessage(null)
-        setNotificationClass('')
-      }, 4000)       
-      setTitle('')
-      setAuthor('')
-      setUrl('')
+      setNotification(`a new blog "${title}" by ${author} added`, "success")
     } catch (exception) {
-      console.log(exception)
+      setNotification(`exception ocurred while adding new blog: ${exception}`)
     }
+    setTitle('')
+    setAuthor('')
+    setUrl('')
   }
 
   const handleLogin = async (event) => {
@@ -71,11 +75,11 @@ const App = () => {
 
       blogService.setToken(user.token)
       setUser(user)
-      setUsername('')
-      setPassword('')
     } catch (exception) {
-      console.log("wrong credentials")
+      setNotification(`wrong username or password`, "error")
     }
+    setUsername('')
+    setPassword('')
   }
 
   useEffect(() => {
