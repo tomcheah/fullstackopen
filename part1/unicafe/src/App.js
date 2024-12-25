@@ -8,18 +8,18 @@ const Button = ({ handleClick, text }) => (
   </button>
 )
 
-const Statistics = (props) => {
-  if (props.total > 0) {
-    let average = (props.good - props.bad) / props.total
-    let positive = props.good / props.total * 100
+const Statistics = ({good, neutral, bad, total}) => {
+  if (total > 0) {
+    let average = (good - bad) / total
+    let positive = good / total * 100
     return (
       <div>
         <table>
           <tbody>
-            <StatisticLine text="good" value={props.good} />
-            <StatisticLine text="neutral" value={props.neutral} />
-            <StatisticLine text="bad" value={props.bad} />
-            <StatisticLine text="all" value={props.total} />
+            <StatisticLine text="good" value={good} />
+            <StatisticLine text="neutral" value={neutral} />
+            <StatisticLine text="bad" value={bad} />
+            <StatisticLine text="all" value={total} />
             <StatisticLine text="average" value={average} />
             <StatisticLine text="positive" value={positive} />
           </tbody>
