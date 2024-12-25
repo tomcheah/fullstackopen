@@ -3,8 +3,8 @@ import Header from './Header'
 import Content from './Content'
 import Total from './Total'
 
-const Course = ({ course }) => {
-    let { id, name, parts } = course
+const Course = ({ name, parts }) => {
+  console.log('This is Course ', name, ' with ', parts, ' parts')
     return (
         <div>
           <Header course={name} />
