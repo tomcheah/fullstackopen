@@ -1,49 +1,34 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
+      "name": "Person",
+      "number": "1919",
       "id": 1
     },
     {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
+      "name": "Cat",
+      "number": "234",
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
+      "name": "Dog",
+      "number": "1",
       "id": 3
     },
     {
-      "name": "Test234",
-      "id": "c74c3ff8-9c11-4289-b3dd-6c25e7785ef2",
-      "number": "1234"
+      "name": "Test",
+      "number": "234987239478234",
+      "id": 4
     },
     {
-      "name": "add2",
-      "id": "9a1ef7c6-408a-4fcd-a538-0302ae8c5888",
-      "number": "23"
+      "name": "TestPerson",
+      "number": "213423434",
+      "id": 5
     },
     {
-      "name": "test",
-      "id": "762fa8d2-8961-4931-98eb-093497c1f1ff",
-      "number": "234234"
-    },
-    {
-      "name": "Bedbean",
-      "id": "da5e56fc-f2f6-4602-982b-75a84c68140b",
-      "number": "24"
-    },
-    {
-      "name": "test234",
-      "id": "009f495c-8f47-4d61-a0a4-e7764ea19c6e",
-      "number": "234234"
-    },
-    {
-      "name": "test234234",
-      "id": "1cc90819-55d3-4f24-8f7b-f5ef4db9b0e0",
-      "number": "2"
+      "name": "Name",
+      "number": "90810498901824",
+      "id": 6
     }
   ]
 }
