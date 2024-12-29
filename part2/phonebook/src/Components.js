@@ -34,4 +34,18 @@ const PersonForm = ( {addName, newName, handleNameChange, newNumber, handleNumbe
   )
 }
 
-export { Filter, PersonForm, Persons };
+const Notification = ({ message }) => {
+  if (message === null || message === '') {
+    return null
+  } 
+
+  const className = message.includes('Successfully') ? 'success' : 'error'
+
+  return (
+    <div className={className}>
+      {message}
+    </div>
+  )
+}
+
+export { Filter, PersonForm, Persons, Notification };

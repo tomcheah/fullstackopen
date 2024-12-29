@@ -1,21 +1,6 @@
 {
   "persons": [
     {
-      "name": "Person",
-      "number": "1919",
-      "id": 1
-    },
-    {
-      "name": "Cat",
-      "number": "234",
-      "id": 2
-    },
-    {
-      "name": "Dog",
-      "number": "1",
-      "id": 3
-    },
-    {
       "name": "Test",
       "number": "234987239478234",
       "id": 4
@@ -29,6 +14,26 @@
       "name": "Name",
       "number": "90810498901824",
       "id": 6
+    },
+    {
+      "name": "New Contact",
+      "number": "23489234",
+      "id": 7
+    },
+    {
+      "name": "New",
+      "number": "2341234",
+      "id": 8
+    },
+    {
+      "name": "A",
+      "number": "23423",
+      "id": 9
+    },
+    {
+      "name": "B",
+      "number": "23498234",
+      "id": 10
     }
   ]
 }
