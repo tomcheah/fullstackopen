@@ -1,101 +1,72 @@
-require('dotenv').config()
-
 const express = require('express')
+const { v4: uuidv4 } = require('uuid')
 const app = express()
-const morgan = require('morgan')
-const cors = require('cors')
-const Person = require('./models/person')
 
 app.use(express.json())
-morgan.token('body', (req) => JSON.stringify(req.body))
-app.use(morgan(':method :url :status :response-time ms :body'))
-app.use(cors())
-app.use(express.static('build'))
 
+let persons = [
+  {
+    id: '1',
+    name: 'Arto Hellas',
+    number: '040-123456'
+  },
+  {
+    id: '2',
+    name: 'Becky Arty',
+    number: '245-123456'
+  },
+]
 
-app.get('/', (request, response) => {
-  response.send('<h1>Hello World!</h1>')
-})
-
-app.get('/api/persons', (request, response) => {
-  Person.find({}).then(persons => {
-    response.json(persons)
-  })
-})
-
-app.get('/api/persons/:id', (request, response) => {
-  Person.findById(request.params.id).then(person => {
-    response.json(person)
-  })
+app.get('/api/persons', (request,response) => {
+  response.json(persons)
 })
 
 app.get('/info', (request, response) => {
-  Person.countDocuments({}, function (err, count) {
-    response.write(`<h1>Phonebook has info for ${count} people</h1>`)
-    response.write(`<p>${new Date()}</p>`)
-    response.send()
-  })
+  const date = new Date()
+  response.send(`<p>Phonebook has info for ${persons.length} people</p> ${date}`)
 })
 
-app.delete('/api/persons/:id', (request, response, next) => {
-  Person.findByIdAndRemove(request.params.id)
-    .then((result) => {
-      console.log(result)
-      response.status(204).end()
+app.get('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  const person = persons.find(person => person.id === id)
+  if (person) {
+    response.json(person)
+  } else {
+    response.status(404).end()
+  }
+})
+
+app.delete('/api/persons/:id', (request, response) => {
+  const id = request.params.id
+  persons = persons.filter(person => person.id !== id)
+  response.status(204).end()
+})
+
+app.post('/api/persons', (request, response) => {
+  const person = request.body
+  if (!person.name) {
+    return response.status(400).json({
+      error: 'name is missing'
     })
-    .catch(error => next(error))
-})
-
-app.put('/api/persons/:id', (request, response, next) => {
-  const { name, number } = request.body
-
-  Person.findByIdAndUpdate(request.params.id, { name, number }, { new: true, runValidators: true, context: 'query' })
-    .then(updatedPerson => {
-      console.log(updatedPerson)
-      response.json(updatedPerson)
+  }
+  if (!person.number) {
+    return response.status(400).json({
+      error: 'number is missing'
     })
-    .catch(error => next(error))
-})
-
-app.post('/api/persons', (request, response, next) => {
-  const body = request.body
-
-  // Name exists in phonebook already
-  Person.findOne({ name: body.name }, function(error, person) {
-    if (error) {
-      return response.status(440).send({ error: error.message })
-    }
-    if (person) {
-      return response.status(400).send({ error: 'name already exists in phonebook, use update functionality instead' })
-    }
-  })
-
-  const person = new Person({
-    name: body.name,
-    number: body.number,
-  })
-
-  person.save()
-    .then(savedPerson => {
-      response.json(savedPerson)
+  }
+  if (persons.find(p => p.name === person.name)) {
+    return response.status(400).json({
+      error: `entry with name ${person.name} already exists`
     })
-    .catch(error => { next(error) })
-})
-
-const errorHandler = (error, request, response, next) => {
-  if (error.name === 'CastError') {
-    return response.status(400).send({ error: 'malformatted id' })
-  } else if (error.name === 'ValidationError') {
-    return response.status(400).json({ error: error.message })
   }
 
-  next(error)
-}
+  person.id = uuidv4()
+  persons = persons.concat(person)
 
-// errorHandler MUST be last loaded middleware and has to below all the APIs
-app.use(errorHandler)
+  response.json(person)
+})
 
-const PORT = process.env.PORT
+const PORT = 3001
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })
