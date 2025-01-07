@@ -1,8 +1,11 @@
 const express = require('express')
+const morgan = require('morgan')
 const { v4: uuidv4 } = require('uuid')
 const app = express()
 
 app.use(express.json())
+morgan.token('body', (req) => JSON.stringify(req.body))
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 let persons = [
   {
@@ -62,7 +65,6 @@ app.post('/api/persons', (request, response) => {
 
   person.id = uuidv4()
   persons = persons.concat(person)
-
   response.json(person)
 })
 
