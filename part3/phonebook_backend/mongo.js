@@ -29,7 +29,7 @@ if (process.argv.length === 3) {
     name: name,
     number: number,
   })
-  person.save().then(result => {
+  person.save().then(() => {
     console.log(`added new contact ${name} to database`)
     mongoose.connection.close()
   })

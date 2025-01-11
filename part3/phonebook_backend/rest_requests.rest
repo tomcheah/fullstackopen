@@ -37,6 +37,22 @@ content-type: application/json
     "name": "",
     "number": "123"
 }
+###
+POST http://localhost:3001/api/persons/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "a",
+    "number": "12345"
+}
+###
+POST http://localhost:3001/api/persons/ HTTP/1.1
+content-type: application/json
+
+{
+    "name": "asdfawefawef",
+    "number": "14-234134234234234"
+}
 ### 
 GET http://localhost:3001/api/unsupportedEndpoint
 ###
