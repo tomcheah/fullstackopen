@@ -30,6 +30,7 @@ const App = () => {
     if (names.includes(newName)) {
       if (window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)) {
         const existingPerson = persons.find(person => person.name === newName)
+        console.log(existingPerson)
         const updatedPersonObject = {...existingPerson, number: newNumber}
         update(existingPerson.id, updatedPersonObject)
           .then(returnedPerson => {
@@ -52,8 +53,11 @@ const App = () => {
       create(personObject)
         .then(returnedPerson => {
           setPersons(persons.concat(returnedPerson))
+          setMessage(`Successfully added ${newName} to Phonebook`)
         })
-      setMessage(`Successfully added ${newName} to Phonebook`)
+        .catch(error => {
+          setMessage(error.response.data.error)
+        })
     }
     setTimeout(() => {
       setMessage('')
