@@ -1,6 +1,8 @@
+require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
+const Person = require('./models/person')
 
 const { v4: uuidv4 } = require('uuid')
 const app = express()
@@ -11,36 +13,34 @@ app.use(express.static('build'))
 morgan.token('body', (req) => JSON.stringify(req.body))
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-let persons = [
-  {
-    id: '1',
-    name: 'Arto Hellas',
-    number: '040-123456'
-  },
-  {
-    id: '2',
-    name: 'Becky Arty',
-    number: '245-123456'
-  },
-]
+let persons = []
 
 app.get('/api/persons', (request,response) => {
-  response.json(persons)
+  Person.find({}).then(persons => {
+    response.json(persons)
+  })
 })
 
 app.get('/info', (request, response) => {
   const date = new Date()
-  response.send(`<p>Phonebook has info for ${persons.length} people</p> ${date}`)
+  Person.find({}).then(persons => {
+    response.send(`<p>Phonebook has info for ${persons.length} people</p> ${date}`)
+  })
 })
 
 app.get('/api/persons/:id', (request, response) => {
   const id = request.params.id
-  const person = persons.find(person => person.id === id)
-  if (person) {
-    response.json(person)
-  } else {
-    response.status(404).end()
-  }
+  Person.findById(id).then(person => {
+    if (person) {
+      response.json(person)
+    } else {
+      response.status(404).end()
+    }
+  }).catch(error => {
+    console.log(error)
+    response.status(500).end()
+  })
+
 })
 
 app.delete('/api/persons/:id', (request, response) => {
@@ -50,26 +50,25 @@ app.delete('/api/persons/:id', (request, response) => {
 })
 
 app.post('/api/persons', (request, response) => {
-  const person = request.body
-  if (!person.name) {
+  const newPerson = request.body
+  if (!newPerson.name) {
     return response.status(400).json({
       error: 'name is missing'
     })
   }
-  if (!person.number) {
+  if (!newPerson.number) {
     return response.status(400).json({
       error: 'number is missing'
     })
   }
-  if (persons.find(p => p.name === person.name)) {
-    return response.status(400).json({
-      error: `entry with name ${person.name} already exists`
-    })
-  }
 
-  person.id = uuidv4()
-  persons = persons.concat(person)
-  response.json(person)
+  const person = new Person({
+    name: newPerson.name,
+    number: newPerson.number,
+  })
+  person.save().then(result => {
+    response.json(result)
+  })
 })
 
 const PORT = process.env.PORT || 3001
