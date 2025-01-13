@@ -2,13 +2,11 @@ GET http://localhost:3003/api/blogs/ HTTP/1.1
 ###
 POST http://localhost:3003/api/blogs/ HTTP/1.1
 content-type: application/json
-Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QiLCJpZCI6IjYyY2I5YzM4ZDYyNzViZDRjNzdiNTcxMyIsImlhdCI6MTY1NzUxNzU3NCwiZXhwIjoxNjU3NTIxMTc0fQ.Q798IpAgHvB_ejptlLxqdrW9EWbHpwVnukLyKaYo4bs
 
 {
-    "title": "Test Populate",
+    "title": "Test Title",
     "author": "Test",
-    "url": "test.com",
-    "userId": "62cb9c38d6275bd4c77b5713"
+    "url": "test.com"
 }
 ###
 

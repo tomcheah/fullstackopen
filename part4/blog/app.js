@@ -1,34 +1,32 @@
-require('dotenv').config()
-require('express-async-errors')
-
-const http = require('http')
+const config = require('./utils/config')
 const express = require('express')
 const app = express()
-const blogsRouter = require('./controllers/blog')
-const usersRouter = require('./controllers/user')
-const loginRouter = require('./controllers/login')
-const config = require('./utils/config')
-const mongoose = require('mongoose')
-const { application } = require('express')
+const cors = require('cors')
+const blogsRouter = require('./controllers/blogs')
 const middleware = require('./utils/middleware')
-app.use(middleware.tokenExtractor)
-app.use(express.json())
+const logger = require('./utils/logger')
+const mongoose = require('mongoose')
 
-const mongoUrl = process.env.NODE_ENV === 'test' 
-  ? process.env.TEST_MONGODB_URI
-  : process.env.MONGODB_URI
+mongoose.set('strictQuery', false)
 
-mongoose
-    .connect(mongoUrl)
-    .then(result => {
-        console.log('Connected to MongoDB')
+logger.info(`connecting to ${config.MONGODB_URI}`)
+
+mongoose.connect(config.MONGODB_URI)
+    .then(() => {
+        logger.info('connected to MongoDB')
     })
     .catch((error) => {
-        console.log('Error connecting to MongoDB:', error.message)
+        logger.error('error connecting to MongoDB: ', error.message)
     })
 
+app.use(cors())
+app.use(express.static('build'))
+app.use(express.json())
+app.use(middleware.requestLogger)
+
 app.use('/api/blogs', blogsRouter)
-app.use('/api/users', usersRouter)
-app.use('/api/login', loginRouter)
+
+app.use(middleware.unknownEndpoint)
+app.use(middleware.errorHandler)
 
 module.exports = app
