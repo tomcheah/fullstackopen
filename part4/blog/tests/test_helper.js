@@ -1,63 +1,63 @@
-const Blog = require("../models/blog")
-const User = require('../models/user')
-const app = require('../app')
-const supertest = require('supertest')
-
-const api = supertest(app)
+const Blog = require('../models/blog')
 
 const initialBlogs = [
     {
-        title: 'Bedbean Explores Rito',
-        author: 'Bedbean',
-        url: 'test.url',
-        likes: 2,
+        title: 'Unit Tests are Good',
+        author: 'Unit Test',
+        url: 'url1',
+        likes: 15,
     },
     {
-        title: 'Jett Takes on Pearl',
-        author: 'Jett',
-        url: 'test.url',
-        likes: 300,
+        title: 'Eat Your Fruits and Veggies',
+        author: 'Fruit',
+        url: 'fruiturl',
+        likes: 200,
     },
     {
-        title: 'Eating Food',
-        author: 'Bread',
-        url: 'test.url',
-        likes: 1,
+        title: 'Eep Well',
+        author: 'Eep',
+        url: 'eepurl',
+        likes: 50,
+    },
+    {
+        title: 'Meow',
+        author: 'Cat',
+        url: 'caturl',
+        likes: 200,
+    },
+    {
+        title: 'Gym Time',
+        author: 'Jim',
+        url: 'gymurl',
+        likes: 25,
+    },
+    {
+        title: 'Gym Time 2',
+        author: 'Jim',
+        url: 'gymurl',
+        likes: 100,
+    }, 
+    {
+        title: 'Gym Time 3',
+        author: 'Jim',
+        url: 'gymurl',
+        likes: 50,
     }
 ]
 
 const nonExistingId = async () => {
-    const blog = new Note({ title: 'willremovethissoon', author: 'test', url: "url", likes: 3 })
+    const blog = new Blog({ title: 'temp', author: 'temp', url: 'temp', likes: 0 })
     await blog.save()
-    await blog.remove()
-  
+    await blog.deleteOne()
+
     return blog._id.toString()
-  }
+}
 
 const blogsInDb = async () => {
     const blogs = await Blog.find({})
     return blogs.map(blog => blog.toJSON())
-  }
-  
-const usersInDb = async () => {
-    const users = await User.find({})
-    return users.map(u => u.toJSON())
-}
-
-const authHeader = async () => {
-    const user = {
-        username: 'jest',
-        password: 'jest',
-        id: "24",
-    }
-
-    const loginResponse = await api
-        .post('/api/login')
-        .send(user)
-        
-    return `bearer ${loginResponse.body.token}`
 }
 
 module.exports = {
-    initialBlogs, nonExistingId, blogsInDb, usersInDb, authHeader
+    initialBlogs, nonExistingId, blogsInDb
 }
