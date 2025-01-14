@@ -1,237 +1,150 @@
+const { test, describe } = require('node:test')
+const assert = require('node:assert')
 const listHelper = require('../utils/list_helper')
 
-test('dummy returns one', () => {
-  const blogs = []
+const listWithOneBlog = [
+  {
+    _id: '1',
+    title: 'title',
+    author: 'author',
+    url: 'url',
+    likes: 2,
+    __v: 0
+  }
+]
 
-  const result = listHelper.dummy(blogs)
-  expect(result).toBe(1)
+const blogs = [
+  {
+    _id: '1',
+    title: 'Unit Tests are Good',
+    author: 'Unit Test',
+    url: 'url1',
+    likes: 15,
+    __v: 0
+  },
+  {
+    _id: '2',
+    title: 'Eat Your Fruits and Veggies',
+    author: 'Fruit',
+    url: 'fruiturl',
+    likes: 200,
+    __v: 0
+  },
+  {
+    _id: '3',
+    title: 'Eep Well',
+    author: 'Eep',
+    url: 'eepurl',
+    likes: 50,
+    __v: 0
+  },
+  {
+    _id: '4',
+    title: 'Meow',
+    author: 'Cat',
+    url: 'caturl',
+    likes: 200,
+    __v: 0
+  },
+  {
+    _id: '5',
+    title: 'Gym Time',
+    author: 'Jim',
+    url: 'gymurl',
+    likes: 25,
+    __v: 0
+  },
+  {
+    _id: '6',
+    title: 'Gym Time 2',
+    author: 'Jim',
+    url: 'gymurl',
+    likes: 100,
+    __v: 0
+  }, 
+  {
+    _id: '7',
+    title: 'Gym Time 3',
+    author: 'Jim',
+    url: 'gymurl',
+    likes: 50,
+    __v: 0
+  }
+]
+
+describe('dummy', () => {
+  test('dummy returns one', () => {
+    const blogs = []
+  
+    const result = listHelper.dummy(blogs)
+    assert.strictEqual(result, 1)
+  })
 })
 
-describe('total likes', () => {
-    const listWithOneBlog = [
-      {
-        _id: '5a422aa71b54a676234d17f8',
-        title: 'Bedbean Explores Rito',
-        author: 'Bedbean',
-        url: 'test.url',
-        likes: 49824,
-        __v: 0
-      }
-    ]
-  
-    const listWithMultipleBlogs = [
-        {
-          _id: '5a422aa71b54a676234d17f8',
-          title: 'Bedbean Explores Rito',
-          author: 'Bedbean',
-          url: 'test.url',
-          likes: 2,
-          __v: 0
-        },
-        {
-            _id: '2498723489789274',
-            title: 'Jett Takes on Pearl',
-            author: 'Jett',
-            url: 'test.url',
-            likes: 300,
-            __v: 0
-          },
-          {
-            _id: '1029834982734',
-            title: 'Eating Food',
-            author: 'Bread',
-            url: 'test.url',
-            likes: 1,
-            __v: 0
-          }
-      ]
-
-    test('empty list', () => {
-        const result = listHelper.totalLikes([])
-        expect(result).toBe(0)
-    })
-
-    test('list with one blog', () => {
-      const result = listHelper.totalLikes(listWithOneBlog)
-      expect(result).toBe(49824)
-    })
-
-    test('list with multiple blog posts', () => {
-        const result = listHelper.totalLikes(listWithMultipleBlogs)
-        expect(result).toBe(303)
-      })
-
+describe('totalLikes', () => {
+  test('empty list returns 0', () => {
+    assert.strictEqual(listHelper.totalLikes([]), 0)
   })
 
-describe('total likes', () => {
-    const listWithOneBlog = [
-        {
-          _id: '5a422aa71b54a676234d17f8',
-          title: 'Bedbean Explores Rito',
-          author: 'Bedbean',
-          url: 'test.url',
-          likes: 49824,
-          __v: 0
-        }
-      ]
-    
-      const listWithMultipleBlogs = [
-          {
-            _id: '5a422aa71b54a676234d17f8',
-            title: 'Bedbean Explores Rito',
-            author: 'Bedbean',
-            url: 'test.url',
-            likes: 2,
-            __v: 0
-          },
-          {
-              _id: '2498723489789274',
-              title: 'Jett Takes on Pearl',
-              author: 'Jett',
-              url: 'test.url',
-              likes: 300,
-              __v: 0
-            },
-            {
-              _id: '1029834982734',
-              title: 'Eating Food',
-              author: 'Bread',
-              url: 'test.url',
-              likes: 1,
-              __v: 0
-            }
-        ]
-
-    test('empty list', () => {
-        const result = listHelper.favoriteBlog([])
-        expect(result).toBe("Blogs do not exist")
-    })
-
-    test('list with one blog', () => {
-        const result = listHelper.favoriteBlog(listWithOneBlog)
-        expect(result).toEqual(listWithOneBlog[0])
-    })
-
-    test('list with multiple blogs', () => {
-        const result = listHelper.favoriteBlog(listWithMultipleBlogs)
-        expect(result).toEqual(listWithMultipleBlogs[1])
-    })
-})
-
-describe('most blogs', () => {
-  const listWithOneBlog = [
-      {
-        _id: '5a422aa71b54a676234d17f8',
-        title: 'Bedbean Explores Rito',
-        author: 'Bedbean',
-        url: 'test.url',
-        likes: 49824,
-        __v: 0
-      }
-    ]
-  
-    const listWithMultipleBlogs = [
-        {
-          _id: '5a422aa71b54a676234d17f8',
-          title: 'Bedbean Explores Rito',
-          author: 'Bedbean',
-          url: 'test.url',
-          likes: 2,
-          __v: 0
-        },
-        {
-            _id: '2498723489789274',
-            title: 'Jett Takes on Pearl',
-            author: 'Jett',
-            url: 'test.url',
-            likes: 300,
-            __v: 0
-          },
-          {
-            _id: '1029834982734',
-            title: 'Eating Food',
-            author: 'Jett',
-            url: 'test.url',
-            likes: 1,
-            __v: 0
-          }
-      ]
-
-    const answer1 = {author: 'Bedbean', blogs: 1}
-    const answer2 = {author: 'Jett', blogs: 2}
-
-    test('empty list', () => {
-        const result = listHelper.mostBlogs([])
-        expect(result).toBe("Blogs do not exist")
-    })
-  
-    test('list with one blog', () => {
-      const result = listHelper.mostBlogs(listWithOneBlog)
-      expect(result).toEqual(answer1)
+  test('when list only has one blog, equals the likes of that', () => {
+    const result = listHelper.totalLikes(listWithOneBlog)
+    assert.strictEqual(result, listWithOneBlog[0].likes)
   })
 
-  test('list with multiple blogs', () => {
-    const result = listHelper.mostBlogs(listWithMultipleBlogs)
-    expect(result).toEqual(answer2)
+  test('total likes of many blogs', () => {
+    const result = listHelper.totalLikes(blogs)
+    assert.strictEqual(result, 640)
+  })
 })
 
-})
-
-describe('most likes', () => {
-  const listWithOneBlog = [
-      {
-        _id: '5a422aa71b54a676234d17f8',
-        title: 'Bedbean Explores Rito',
-        author: 'Bedbean',
-        url: 'test.url',
-        likes: 49824,
-        __v: 0
-      }
-    ]
-  
-    const listWithMultipleBlogs = [
-        {
-          _id: '5a422aa71b54a676234d17f8',
-          title: 'Bedbean Explores Rito',
-          author: 'Bedbean',
-          url: 'test.url',
-          likes: 2,
-          __v: 0
-        },
-        {
-            _id: '2498723489789274',
-            title: 'Jett Takes on Pearl',
-            author: 'Jett',
-            url: 'test.url',
-            likes: 300,
-            __v: 0
-          },
-          {
-            _id: '1029834982734',
-            title: 'Eating Food',
-            author: 'Jett',
-            url: 'test.url',
-            likes: 1,
-            __v: 0
-          }
-      ]
-
-    const answer1 = {author: 'Bedbean', likes: 49824}
-    const answer2 = {author: 'Jett', likes: 301}
-
-    test('empty list', () => {
-        const result = listHelper.mostLikes([])
-        expect(result).toBe("Blogs do not exist")
-    })
-  
-    test('list with one blog', () => {
-      const result = listHelper.mostLikes(listWithOneBlog)
-      expect(result).toEqual(answer1)
+describe('favoriteBlog', () => {
+  test ('empty list returns null', () => { 
+    assert.strictEqual(listHelper.favoriteBlog([]), null)
   })
 
-  test('list with multiple blogs', () => {
-    const result = listHelper.mostLikes(listWithMultipleBlogs)
-    expect(result).toEqual(answer2)
+  test ('favorite blog of list with singular blog', () => {
+    const result = listHelper.favoriteBlog(listWithOneBlog)
+    assert.deepStrictEqual(result, listWithOneBlog[0])
+  })
+
+  test ('favorite blog', () => {
+    const result = listHelper.favoriteBlog(blogs)
+    assert.deepStrictEqual(result, {
+      _id: '2',
+      title: 'Eat Your Fruits and Veggies',
+      author: 'Fruit',
+      url: 'fruiturl',
+      likes: 200,
+      __v: 0
+    })
+  })
 })
 
+
+describe('mostBlogs', () => {
+  test ('empty list returns null', () => {
+    assert.strictEqual(listHelper.mostBlogs([]), null)
+  })
+
+  test ('author with most blogs', () => {
+    const result = listHelper.mostBlogs(blogs)
+    assert.deepStrictEqual(result, {
+      author: 'Jim',
+      blogs: 3
+    })
+  })
+})
+
+describe('mostLikes', () => {
+  test ('empty list returns null', () => {
+    assert.strictEqual(listHelper.mostLikes([]), null)
+  })
+
+  test ('author with most likes', () => {
+    const result = listHelper.mostLikes(blogs)
+    assert.deepStrictEqual(result, {
+      author: 'Fruit',
+      likes: 200
+    })
+  })
 })
