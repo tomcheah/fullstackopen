@@ -7,6 +7,7 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
@@ -15,6 +16,22 @@ beforeEach(async () => {
     const blogObjects = helper.initialBlogs.map(blog => new Blog(blog))
     const promiseArray = blogObjects.map(blog => blog.save())
     await Promise.all(promiseArray)
+
+    // Set up a test user
+    await User.deleteMany({})
+
+    const newUser = {
+        username: 'nodetest',
+        name: 'nodetest',
+        password: 'nodetest',
+    }
+
+    await api
+        .post('/api/users')
+        .send(newUser)
+        .expect(201)
+        .expect('Content-Type', /application\/json/)
+
 })
 
 describe('getting blogs', () => {
@@ -43,9 +60,11 @@ describe('addition of new blogs', () => {
             author: 'Author',
             url: 'authorurl',
         }
-    
+        const authHeader = await helper.authHeader()
+
         await api
             .post('/api/blogs')
+            .set('Authorization', authHeader)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -66,9 +85,11 @@ describe('addition of new blogs', () => {
             author: author,
             url: url,
         }
-    
+        const authHeader = await helper.authHeader()
+
         await api
             .post('/api/blogs')
+            .set('Authorization', authHeader)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -88,9 +109,11 @@ describe('addition of new blogs', () => {
             url: url,
             likes: likes,
         }
-    
+        const authHeader = await helper.authHeader()
+
         await api
             .post('/api/blogs')
+            .set('Authorization', authHeader)
             .send(newBlog)
             .expect(201)
             .expect('Content-Type', /application\/json/)
@@ -106,9 +129,11 @@ describe('addition of new blogs', () => {
             author: author,
             url: url,
         }
-    
+        const authHeader = await helper.authHeader()
+
         await api
             .post('/api/blogs')
+            .set('Authorization', authHeader)
             .send(newBlog)
             .expect(400)
     })
@@ -120,9 +145,11 @@ describe('addition of new blogs', () => {
             title: title,
             author: author,
         }
-    
+        const authHeader = await helper.authHeader()
+
         await api
             .post('/api/blogs')
+            .set('Authorization', authHeader)
             .send(newBlog)
             .expect(400)
     })
@@ -130,19 +157,28 @@ describe('addition of new blogs', () => {
 
 describe('deletion of blogs', () => {
     test('a blog can be deleted', async () => {
-        const blogsAtStart = await helper.blogsInDb()
-        const blogToDelete = blogsAtStart[0]
+        const newBlogTitle = 'Blog Post to Delete'
+        const newBlog = {
+            title: newBlogTitle,
+            author: 'Author',
+            url: 'authorurl',
+        }
+        const authHeader = await helper.authHeader()
+
+        postResponse = await api
+            .post('/api/blogs')
+            .set('Authorization', authHeader)
+            .send(newBlog)
 
         await api
-            .delete(`/api/blogs/${blogToDelete.id}`)
+            .delete(`/api/blogs/${postResponse.body.id}`)
+            .set('Authorization', authHeader)
             .expect(204)
         
         const blogsAtEnd = await helper.blogsInDb()
 
         const titles = blogsAtEnd.map(b => b.title)
-        assert(!titles.includes(blogToDelete.title))
-
-        assert.strictEqual(blogsAtEnd.length, helper.initialBlogs.length - 1)
+        assert(!titles.includes(newBlogTitle))
     })
 })
 
