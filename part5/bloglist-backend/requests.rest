@@ -1,0 +1,54 @@
+GET http://localhost:3003/api/blogs/ HTTP/1.1
+###
+POST http://localhost:3003/api/blogs/ HTTP/1.1
+content-type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QiLCJpZCI6IjY3ODg5NWRjMDlhM2Q3NTM0MjY1YTkxZCIsImlhdCI6MTczNzAwNjIyNCwiZXhwIjoxNzM3MDA5ODI0fQ.35YJfiEn92tJHpbDYoisXZqh0Sj1EFYuvouhJjoJs48
+
+{
+    "title": "New Blog Post Test",
+    "author": "Author",
+    "url": "test.com"
+}
+###
+
+DELETE http://localhost:3003/api/blogs/6788a1213ae288d8f7822994 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6IlRlc3QyIiwiaWQiOiI2Nzg4OTVlYTA5YTNkNzUzNDI2NWE5MjAiLCJpYXQiOjE3MzcwMDY5MzYsImV4cCI6MTczNzAxMDUzNn0.ZuCciSs-iZHTtCwCtIyINaSMakGJswi-44_06hbouRE
+
+###
+GET http://localhost:3003/api/users/ HTTP/1.1
+###
+POST http://localhost:3003/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "nodetest",
+    "name": "nodetest",
+    "password": "nodetest"
+}
+###
+POST http://localhost:3003/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Alantaco",
+    "name": "Alan Taco",
+    "password": "alantaco234"
+}
+###
+POST http://localhost:3003/api/users/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Howdy",
+    "name": "Test",
+    "password": "t"
+}
+###
+POST http://localhost:3003/api/login/ HTTP/1.1
+content-type: application/json
+
+{
+    "username": "Test2",
+    "password": "test"
+}
+
