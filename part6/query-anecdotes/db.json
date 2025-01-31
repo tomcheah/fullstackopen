@@ -42,13 +42,23 @@
     },
     {
       "content": "Today is a good day",
-      "votes": 0,
+      "votes": 1,
       "id": "hUqWvYG"
     },
     {
       "content": "You do this",
-      "votes": 4,
+      "votes": 5,
       "id": "GOJJhm9"
+    },
+    {
+      "content": "Test this notification",
+      "votes": 3,
+      "id": "VYvUjfm"
+    },
+    {
+      "content": "testing 1 2 3 ",
+      "votes": 0,
+      "id": "0Foomqx"
     }
   ]
 }
